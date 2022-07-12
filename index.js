@@ -16,5 +16,5 @@ console.log('regel nummers van geslaagde scenarios:')
 
 line_numbers = passed_scenarios.map(e => e.line)
 
-console.log(line_numbers)
+line_numbers.forEach(e => console.log(Number(e)-1))
 
