@@ -7,13 +7,18 @@ const argv = yargs.option('debug', {
            description: 'print debug logging',
            type: 'boolean'
          })
+         .option('file', {
+             alias: 'f',
+             description: 'name of Cucumber Feature file whose "@Android" tags should be removed for passed tests (to disable them on next run)',
+             type: 'string'
+         })
          .help()
          .alias('help','h').argv
 
 /**
   * Process Cucumber output file 'cucumber_report.json'
   */
-let data = fs.readFileSync('cucumber_report.json');
+let data = fs.readFileSync('reports/cucumber_report.json');
 let json = JSON.parse(data);
 let scenarios = json[0].elements;
 
@@ -26,9 +31,10 @@ if ( argv.debug ) console.log(passed_scenario_names)
 if ( argv.debug ) console.log('regel nummers van geslaagde scenarios:')
 
 line_numbers = passed_scenarios.map(e => e.line)
+if ( argv.debug ) console.log(line_numbers);
 
-const cucumberFeatureFile = 'AppCampusGuide.feature';
+const cucumberFeatureFile = argv.file || 'tempfile'
 
 // output is 'sed' commands to delete '@Android' so this scenario is not run anymore
-line_numbers.forEach(e => console.log(`sed -e '${Number(e)-1}s/@Android//' cucumberFeatureFile`))
+line_numbers.forEach(e => console.log(`sed -i -e '${Number(e)-1}s/@Android//' test-scripts/features/${cucumberFeatureFile}`))
 
