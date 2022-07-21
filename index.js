@@ -36,5 +36,5 @@ if ( argv.debug ) console.log(line_numbers);
 const cucumberFeatureFile = argv.file || 'tempfile'
 
 // output is 'sed' commands to delete '@Android' so this scenario is not run anymore
-line_numbers.forEach(e => console.log(`sed -i '.bak' -e '${Number(e)-1}s/@Android//' test-scripts/features/${cucumberFeatureFile}`))
+line_numbers.forEach(e => console.log(`sed -i '.bak' -e '${Number(e)-1}s/@Android//' ${cucumberFeatureFile}`))
 
